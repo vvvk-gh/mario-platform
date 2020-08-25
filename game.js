@@ -26,6 +26,7 @@ let game = new Phaser.Game(config)
 function preload() {
     //load images 
     this.load.image("ground" , "assets/topground.png")
+    this.load.image("sky" , "assets/background.png")
 }
 
 
@@ -34,14 +35,20 @@ function create() {
     W = game.config.width;
     H = game.config.height;
 
-    let ground = this.add.sprite(0,H-128, "ground")
+    //tileSprite(x,y,w,h,image) : add sprites to the particular page
+    let ground = this.add.tileSprite(0,H-128,W,128 ,"ground")
     //intailly phasersprites takes the point from the center of the image by default
     //now lets set them to starting points
     ground.setOrigin(0,0);
-    
+
+    let background = this.add.tileSprite(0,0,W,H,"sky")
+    background.setOrigin(0,0) 
+    background.depth = -1;
 }
 
 //game loop
 function update() {
     console.log(`Update`)
+
+
 }
