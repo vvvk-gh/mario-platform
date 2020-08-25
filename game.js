@@ -56,7 +56,7 @@ function create() {
     let background = this.add.sprite(0,0,"sky")
     background.setOrigin(0,0)
     background.displayWidth = W;
-    //background.displayHeight = H; 
+    background.displayHeight = H; 
     background.depth = -1;
 
     //adding player : (x,y,image,defalut frame)
