@@ -73,7 +73,26 @@ function create() {
     this.player.setBounce(0.5);
     
     //player animations 
-    
+    this.anims.create({
+        key : 'left',
+        frames : this.anims.generateFrameNumbers('dude', {start:0, end:3}),
+        frameRate:10,
+        repeat:-1,
+    });
+
+    this.anims.create({
+        key : 'center',
+        frames : this.anims.generateFrameNumbers('dude', {start:4, end:4}),
+        frameRate:10,
+    });
+
+
+    this.anims.create({
+        key : 'right',
+        frames : this.anims.generateFrameNumbers('dude', {start:5, end:8}),
+        frameRate:10,
+        repeat:-1,
+    });
 
 
 
@@ -127,13 +146,16 @@ function update() {
     if(this.cursors.right.isDown){
         console.log(`>`);
         this.player.setVelocity(player_config.speed)
+        this.player.anims.play('right',true)
     }
     else if(this.cursors.left.isDown){
         console.log(`<`)
         this.player.setVelocityX(-player_config.speed)
+        this.player.anims.play('left',true)
     }
     else{
-        this.player.setVelocityX(0);
+        this.player.setVelocityX(0)
+        this.player.anims.play('center',true)
     }
 
     //Jump
