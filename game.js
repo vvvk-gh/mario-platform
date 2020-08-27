@@ -22,7 +22,7 @@ let config = {
             gravity :{
                 y:1000,
             },
-            debug :true,
+            debug :false,
         },
     },
 
@@ -30,6 +30,12 @@ let config = {
 
 
 let game = new Phaser.Game(config)
+
+let player_config = {
+    "speed" : 100,
+    "jumpSpeed" : 650,
+}
+
 
 function preload() {
     //load images 
@@ -44,6 +50,7 @@ function preload() {
 
 function create() {
     
+
     W = game.config.width;
     H = game.config.height;
 
@@ -61,9 +68,17 @@ function create() {
 
     //adding player : (x,y,image,defalut frame)
     //adding physics to the player
-    let player = this.physics.add.sprite(100,100,"dude",4)
+    this.player = this.physics.add.sprite(100,100,"dude",4)
     //helps to bounce 
-    player.setBounce(0.4);
+    this.player.setBounce(0.5);
+    
+    //player animations 
+    
+
+
+
+    //keyboard and player movements
+    this.cursors = this.input.keyboard.createCursorKeys();
     
     //adding physics to the existing one can be done using below
     //case 1: default physics objects are dynamic to make it static set valuue to true
@@ -94,18 +109,36 @@ function create() {
     let platforms = this.physics.add.staticGroup();
     //groups can be made like above fruits and also like below using create method
     platforms.create(100, 170,"ground").setScale(2 ,0.4).refreshBody();
-    platforms.create(690 ,200 , "ground").setScale(2,0.4).refreshBody();
-    platforms.create(500 ,350 , "ground").setScale(2,0.4).refreshBody();
+    platforms.create(630 ,200 , "ground").setScale(2,0.4).refreshBody();
+    platforms.create(410 ,350 , "ground").setScale(2,0.4).refreshBody();
      //adding existing ground to the platforms
     platforms.add(ground);
     //2d collision for the player and ground
-    this.physics.add.collider(player , ground)
-    //this.physics.add.collider(fruits , ground)
     this.physics.add.collider(fruits , platforms)
+    this.physics.add.collider(this.player , platforms)
+    //this.physics.add.collider(fruits , ground)
    
     
 }  
 //game loop
 function update() {
-    console.log(`Update`)
+
+    //right and left
+    if(this.cursors.right.isDown){
+        console.log(`>`);
+        this.player.setVelocity(player_config.speed)
+    }
+    else if(this.cursors.left.isDown){
+        console.log(`<`)
+        this.player.setVelocityX(-player_config.speed)
+    }
+    else{
+        this.player.setVelocityX(0);
+    }
+
+    //Jump
+    if(this.cursors.up.isDown && this.player.body.touching.down){
+        console.log(`^`)
+        this.player.setVelocityY(-player_config.jumpSpeed)
+    }
 }
