@@ -20,10 +20,11 @@ let config = {
         default :'arcade',
         arcade:{
             gravity :{
-                y:1000
-            }
-        }
-    }
+                y:1000,
+            },
+            debug :true,
+        },
+    },
 
 }
 
@@ -71,7 +72,7 @@ function create() {
     //ground.body.allowGravity=false;
     //ground.body.immovable = true;
  
-    //add group of apples
+    //add group of apples = physical bodies 
     let fruits = this.physics.add.group({
         //image reference
         key : "apple",
@@ -88,9 +89,21 @@ function create() {
         f.setBounce(Phaser.Math.FloatBetween(0.4 , 0.6));
     })
 
+
+    //static Groups
+    let platforms = this.physics.add.staticGroup();
+    //groups can be made like above fruits and also like below using create method
+    platforms.create(100, 170,"ground").setScale(2 ,0.4).refreshBody();
+    platforms.create(690 ,200 , "ground").setScale(2,0.4).refreshBody();
+    platforms.create(500 ,350 , "ground").setScale(2,0.4).refreshBody();
+     //adding existing ground to the platforms
+    platforms.add(ground);
     //2d collision for the player and ground
     this.physics.add.collider(player , ground)
-    this.physics.add.collider(fruits , ground)
+    //this.physics.add.collider(fruits , ground)
+    this.physics.add.collider(fruits , platforms)
+   
+    
 }  
 //game loop
 function update() {
